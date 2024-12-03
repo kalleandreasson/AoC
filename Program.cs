@@ -13,6 +13,9 @@ class Program
             case "1":
                 Day1.Run();
                 break;
+            case "2":
+                Day2.Run();
+                break;
             default:
                 Console.WriteLine("Invalid input. Please enter a valid day number.");
                 break;
