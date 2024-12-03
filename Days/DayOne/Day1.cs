@@ -2,21 +2,67 @@ using System.Collections;
 
 namespace AoC.Days
 {
-    public static class Day1
+    public class Day1
     {
+        private static List<int> ListOne = new List<int>();
+        private static List<int> ListTwo = new List<int>();
+        private static int TotalCount;
         public static void Run()
         {
-            var ListOne = new List<int>() {3,4,2,1,3,3};
-            var ListTwo = new List<int>() {4,3,5,3,9,3};
+            Parse();
+
+            //Choose which one to run :)
+            Similarity();
+            //Distance();
+        }
+
+        private static void Distance()
+        {
             var initialSize = ListOne.Count;
-            int TotalCount = 0;
+            TotalCount = 0;
             for (int i = 0; i < initialSize; i++)
             {
                 TotalCount += Math.Abs(ListOne.Min() - ListTwo.Min());
                 ListOne.Remove(ListOne.Min());
                 ListTwo.Remove(ListTwo.Min());
             }
-            Console.WriteLine(TotalCount);
+            Console.WriteLine("Distance score" + TotalCount);
         }
+
+        private static void Similarity() {
+            TotalCount = 0;
+            foreach (var number in ListOne)
+            {
+              int count = ListTwo.Where(x => x.Equals(number)).Count();  
+              TotalCount += number * count;
+            }
+            Console.WriteLine("Similarity score " + TotalCount);
+        }
+
+        private static void Parse()
+        {
+            string filePath = "Days/DayOne/input.txt";
+
+            try
+            {
+                foreach (string line in File.ReadLines(filePath))
+                {
+
+                    string[] parts = line.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (parts.Length >= 2)
+                    {
+                        ListOne.Add(int.Parse(parts[0]));
+                        ListTwo.Add(int.Parse(parts[1]));
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error reading or processing the file: " + ex.Message);
+            }
+        }
+
     }
 }
