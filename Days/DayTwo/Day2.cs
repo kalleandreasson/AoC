@@ -14,17 +14,24 @@ namespace AoC.Days
         {
             foreach (var smallList in bigList)
             {
+                bool isIncreasing = false;
+                bool isDecreasing = false;
+
                 for (int i = 1; i < smallList.Count; i++)
                 {
-                    if (smallList[i] > smallList[i - 1] && smallList[i] <= smallList[i - 1] + 3)
+                    if (!isDecreasing && smallList[i] > smallList[i - 1] && smallList[i] <= smallList[i - 1] + 3)
                     {
+                        isIncreasing = true;
+
                         if (i == smallList.Count - 1)
                         {
                             TotalCount++;
                         }
                     }
-                    else if (smallList[i] < smallList[i - 1] && smallList[i] >= smallList[i - 1] - 3)
+                    else if (!isIncreasing && smallList[i] < smallList[i - 1] && smallList[i] >= smallList[i - 1] - 3)
                     {
+                        isDecreasing = true;
+
                         if (i == smallList.Count - 1)
                         {
                             TotalCount++;
