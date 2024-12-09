@@ -7,7 +7,8 @@ namespace AoC.Days
         public static void Run()
         {
             Parse();
-            CheckIfSafe();
+            CheckIfSaveProblemDampener();
+            //CheckIfSafe();
         }
 
         private static void CheckIfSafe()
@@ -44,6 +45,58 @@ namespace AoC.Days
                 }
             }
             Console.WriteLine("Safe levels: " + TotalCount);
+        }
+
+        private static void CheckIfSaveProblemDampener()
+        {
+            foreach (var smallList in bigList)
+            {
+                bool isSafe = IsValidSequence(smallList);
+
+                if (!isSafe)
+                {
+                    for (int i = 0; i < smallList.Count; i++)
+                    {
+                        var modifiedList = new List<int>(smallList);
+                        modifiedList.RemoveAt(i);
+
+                        if (IsValidSequence(modifiedList))
+                        {
+                            isSafe = true;
+                            break;
+                        }
+                    }
+                }
+                if (isSafe)
+                {
+                    TotalCount++;
+                }
+            }
+            Console.WriteLine("Safe levels: " + TotalCount);
+        }
+
+        static bool IsValidSequence(List<int> list)
+        {
+            bool isIncreasing = false;
+            bool isDecreasing = false;
+
+            for (int i = 1; i < list.Count; i++)
+            {
+                if (!isDecreasing && list[i] > list[i - 1] && list[i] <= list[i - 1] + 3)
+                {
+                    isIncreasing = true;
+                }
+                else if (!isIncreasing && list[i] < list[i - 1] && list[i] >= list[i - 1] - 3)
+                {
+                    isDecreasing = true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private static void Parse()
